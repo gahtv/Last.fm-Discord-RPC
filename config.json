@@ -2,7 +2,9 @@
     "stream": {
         "applemusic": true,
         "spotify": true,
-        "tidal": true},
+        "tidal": true
+    },
     "country": "CA",
-    "lastfmuser": "atmelul"
+    "lastfmuser": "atmelul",
+    "streaming": false
 }

@@ -14,8 +14,7 @@ from tidal_unofficial import TidalUnofficial
 
 load_dotenv()
 key = getenv("LASTFM_API_KEY")
-services = json.load(open("config.json"))  # Read config file
-tidalapi = TidalUnofficial({'country_code': services["country"]}) # Get tidal api
+config = json.load(open("config.json"))  # Read config file
 
 
 async def getlastfm():  # Get lastfm data
@@ -25,7 +24,7 @@ async def getlastfm():  # Get lastfm data
 
 async def recents():  # Get recent tracks
     # Change this to your lastfm username
-    recent = await lastfm.user.get_recent_tracks(services["lastfm"]["username"])
+    recent = await lastfm.user.get_recent_tracks(config["lastfmuser"])
     return recent
 
 
@@ -45,7 +44,7 @@ def wtf(track, artist, album, imgurl):  # Write to file (a great acronym)
 rpc = Presence("909117969014083684")  # Change this to your discord app id
 rpc.connect()
 lastfm = asyncio.run(getlastfm())
-while True:
+def main():
     try:
         try:
             recent = asyncio.run(recents())  # Get recent tracks
@@ -56,14 +55,13 @@ while True:
         most_recent = recent.items[0]
         tidal_track = None
         if most_recent.now_playing:  # If the track is currently playing
-            if services["stream"]["tidal"]:
+            if config["stream"]["tidal"]:
                 import tidal
-                tidal_track = tidal.tidalTrack(
-                         most_recent, tidalapi)  # Get tidal track
-            if services["stream"]["spotify"]:
+                tidal_track = tidal.tidalTrack(most_recent)  # Get tidal track
+            if config["stream"]["spotify"]:
                 import spotify
                 spotify_track = spotify.spotifytrack(most_recent) # Get spotify track
-            if services["stream"]["applemusic"]:
+            if config["stream"]["applemusic"]:
                 import apple
                 apple_track = apple.appletrack(most_recent)
             # Discord RPC Buttons
@@ -76,8 +74,8 @@ while True:
             if tidal_track:
                 # If the track is on tidal, add a button to listen on tidal
                 buttons.append({"label": "Listen on TIDAL",
-                                "url": tidal_track['url']})
-                imgurl = tidalapi.album_art_to_url(tidal_track['album']['cover'])["xxl"]  # Get the album art url if the track is on tidal
+                                "url": tidal_track[0]})
+                imgurl = tidal_track[1] # Get the album art url if the track is on tidal
             if apple_track:
                 # If the track is on apple music, add a button to listen on apple music
                 buttons.append({"label": "Listen on Apple Music",
@@ -91,8 +89,9 @@ while True:
             rpc.update(details=f"🎵{most_recent.name}🧍{most_recent.artist}",  # Update discord rich presence
                        state=f"💿{most_recent.album}",
                        large_image="lastfm",
-                       buttons=buttons[0:2])
-            wtf(most_recent.name, most_recent.artist,most_recent.album, imgurl)  # Write to file
+                       buttons=buttons[0:2]) # Only show the first two buttons (Discord only allows 2 buttons)
+            if config["streaming"]:# If you are a streamer, enable streaming in json to make widget in OBS
+                wtf(most_recent.name, most_recent.artist,most_recent.album, imgurl)  # Write to file
         else:
             rpc.clear()  # If the track is not currently playing, clear discord rich presence
         sleep(5)  # Wait 5 seconds for api rate limit
