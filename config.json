@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "stream": {
         "applemusic": true,
@@ -5,4 +6,12 @@
         "tidal": true},
     "country": "CA",
     "lastfmuser": "atmelul"
+=======
+{
+    "stream": {
+        "applemusic": true,
+        "spotify": true,
+        "tidal": true},
+    "country": "CA" 
+>>>>>>> b4a0aaf4941655009604ad9e60f3216a44819bb4
 }   
