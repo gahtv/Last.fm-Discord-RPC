@@ -13,7 +13,7 @@ SPOTIFY_CLIENT_ID=
 SPOTIFY_CLIENT_SECRET=
 ```
 3. Fill in with your API keys
-4. Change `config.json` file with your 2 letter country code, and what streaming services the program sends scrobbled info to
+4. Change `config.json` file with your 2 letter country code, Last.FM username and what streaming services the program sends scrobbled info to
 5. Run `main.py`
 ## Known Bugs
 Nothing right now, however tell me if you experience any.

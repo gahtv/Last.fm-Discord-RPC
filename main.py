@@ -25,7 +25,7 @@ async def getlastfm():  # Get lastfm data
 
 async def recents():  # Get recent tracks
     # Change this to your lastfm username
-    recent = await lastfm.user.get_recent_tracks("atmelul")
+    recent = await lastfm.user.get_recent_tracks(services["lastfm"]["username"])
     return recent
 
 
