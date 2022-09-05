@@ -3,7 +3,7 @@
 ## How it works
 The program works by grabbing the details of your Now Playing scrobble, and sends that info to any of the 3 music streaming platforms that you choose search APIs. It then records those urls and places all of the info into a now playing discord box. The program also records the music played to a 3 different text file, `album.txt`, `artist.txt`, and `title.txt`, as well as `art.png`, these are here for if you are a streamer for example, and want to custom make your widget a little bit.
 ## Modules 
-Using 
+Using lastfmpy, dotenv, PIL/Pillow, pypresence, requests, tidal_unofficial, and spotipy
 ## Setup
 1. Clone repository
 2. Make .env file in the root folder like this 
