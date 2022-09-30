@@ -17,10 +17,13 @@ def spotifytrack(track):
     search = None
     while search is None:
         try:
-            search = sp.search(q=f"artist:{track.artist} track:{track.name} album:{track.album.name}", market=market,
+            search = sp.search(q=f"artist:{track.artist.name} track:{track.name} album:{track.album.name}", market=market,
                            type="track", limit=1)
         except SpotifyException as e:
-            if e.http_status == 404:
+            search=None
+            if e.http_status in {400, 404}:
                 return None
             sleep(2)
+    if search["tracks"]["items"] == []:
+        return None
     return [search["tracks"]["items"][0]["external_urls"]["spotify"], search["tracks"]["items"][0]["album"]["images"][0]["url"]]

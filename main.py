@@ -23,7 +23,7 @@ async def getlastfm():  # Get lastfm data
 
 
 async def recents():  # Get recent tracks
-    # Change this to your lastfm username
+    # Change line 8 in config.json to your lastfm username
     recent = await lastfm.user.get_recent_tracks(config["lastfmuser"])
     return recent
 
@@ -36,8 +36,7 @@ def wtf(track, artist, album, imgurl):  # Write to file (a great acronym)
     with open("album.txt", "w") as f:
         f.write(f"from {album}")
     response = get(imgurl)
-    img = Image.open(BytesIO(response.content))  # Get image from url
-    img.resize((300, 300))  # Resize image
+    img = Image.open(BytesIO(response.content)).resize((300, 300))  # Get image from url
     img.save("art.png")  # Save image
 
 
@@ -66,6 +65,7 @@ def main():
                 apple_track = apple.appletrack(most_recent)
             # Discord RPC Buttons
             buttons = []
+            imgurl = None
             if spotify_track:
                 # If the track is on spotify, add a button to listen on spotify
                 buttons.append({"label": "Listen on Spotify",
@@ -98,3 +98,6 @@ def main():
     except KeyboardInterrupt:  # If you press ctrl+c to exit
         rpc.close()
         exit()
+if __name__ == "__main__":
+    while True:
+        main()        
